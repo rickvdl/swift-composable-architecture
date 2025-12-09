@@ -1,4 +1,8 @@
-import Combine
+#if !os(macOS) && !os(iOS) && !os(watchOS) && !os(visionOS) && !os(tvOS)
+@preconcurrency import OpenCombine
+#else
+@preconcurrency import Combine
+#endif
 
 extension Store {
   /// Calls one of two closures depending on whether a store's optional state is `nil` or not, and

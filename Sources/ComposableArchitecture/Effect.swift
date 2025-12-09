@@ -1,6 +1,10 @@
+#if !os(macOS) && !os(iOS) && !os(watchOS) && !os(visionOS) && !os(tvOS)
+@preconcurrency import OpenCombine
+#else
 @preconcurrency import Combine
-import Foundation
 import SwiftUI
+#endif
+import Foundation
 
 public struct Effect<Action>: Sendable {
   @usableFromInline
@@ -159,9 +163,11 @@ extension Effect {
   /// - Parameters:
   ///   - action: The action that is immediately emitted by the effect.
   ///   - animation: An animation.
+  #if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
   public static func send(_ action: Action, animation: Animation? = nil) -> Self {
     .send(action).animation(animation)
   }
+  #endif
 }
 
 /// A type that can send actions back into the system when used from
@@ -213,6 +219,7 @@ public struct Send<Action>: Sendable {
   /// - Parameters:
   ///   - action: An action.
   ///   - animation: An animation.
+  #if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
   public func callAsFunction(_ action: Action, animation: Animation?) {
     callAsFunction(action, transaction: Transaction(animation: animation))
   }
@@ -228,6 +235,7 @@ public struct Send<Action>: Sendable {
       self(action)
     }
   }
+  #endif
 }
 
 // MARK: - Composing Effects

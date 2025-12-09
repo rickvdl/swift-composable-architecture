@@ -1,4 +1,9 @@
-import Combine
+#if !os(macOS) && !os(iOS) && !os(watchOS) && !os(visionOS) && !os(tvOS)
+@preconcurrency import OpenCombine
+#else
+@preconcurrency import Combine
+#endif
+
 import Foundation
 
 final class CurrentValueRelay<Output>: Publisher, @unchecked Sendable {
@@ -15,13 +20,19 @@ final class CurrentValueRelay<Output>: Publisher, @unchecked Sendable {
 
   init(_ value: Output) {
     self.currentValue = value
+    #if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
     self.lock = os_unfair_lock_t.allocate(capacity: 1)
     self.lock.initialize(to: os_unfair_lock())
+    #else
+    self.lock = NSLock()
+    #endif
   }
 
   deinit {
+    #if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
     self.lock.deinitialize(count: 1)
     self.lock.deallocate()
+    #endif
   }
 
   func receive(subscriber: some Subscriber<Output, Never>) {
@@ -62,13 +73,19 @@ extension CurrentValueRelay {
     init(upstream: CurrentValueRelay, downstream: any Subscriber<Output, Never>) {
       self.upstream = upstream
       self.downstream = downstream
+      #if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
       self.lock = os_unfair_lock_t.allocate(capacity: 1)
       self.lock.initialize(to: os_unfair_lock())
+      #else
+      self.lock = NSLock()
+      #endif
     }
 
     deinit {
+      #if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
       self.lock.deinitialize(count: 1)
       self.lock.deallocate()
+      #endif
     }
 
     func cancel() {

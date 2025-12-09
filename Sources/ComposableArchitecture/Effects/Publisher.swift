@@ -1,4 +1,10 @@
-import Combine
+#if !os(macOS) && !os(iOS) && !os(watchOS) && !os(visionOS) && !os(tvOS)
+@preconcurrency import OpenCombine
+#else
+@preconcurrency import Combine
+#endif
+
+import Foundation
 
 extension Effect {
   /// Creates an effect from a Combine publisher.

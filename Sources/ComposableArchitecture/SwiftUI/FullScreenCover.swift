@@ -1,3 +1,4 @@
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
 import SwiftUI
 
 #if !os(macOS)
@@ -104,4 +105,5 @@ import SwiftUI
       }
     }
   }
+#endif
 #endif

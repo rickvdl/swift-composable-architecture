@@ -1,4 +1,5 @@
-import Combine
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
+@preconcurrency import Combine
 import SwiftUI
 
 extension View {
@@ -377,3 +378,4 @@ public struct DestinationContent<State, Action> {
     IfLetStore(self.store, then: body)
   }
 }
+#endif

@@ -1,3 +1,4 @@
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
 import SwiftUI
 
 @available(tvOS, unavailable)
@@ -114,3 +115,4 @@ extension View {
     }
   }
 }
+#endif

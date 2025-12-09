@@ -1,3 +1,4 @@
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
 import OSLog
 
 extension Reducer {
@@ -138,6 +139,7 @@ extension Effect {
     }
   }
 }
+#endif
 
 @usableFromInline
 func debugCaseOutput(

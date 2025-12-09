@@ -1,7 +1,11 @@
-import Combine
+#if !os(macOS) && !os(iOS) && !os(watchOS) && !os(visionOS) && !os(tvOS)
+@preconcurrency import OpenCombine
+#else
+@preconcurrency import Combine
+import SwiftUI
+#endif
 import CombineSchedulers
 import Foundation
-import SwiftUI
 
 /// A store represents the runtime that powers the application. It is the object that you will pass
 /// around to views that need to interact with the application.
@@ -195,6 +199,8 @@ public final class Store<State, Action>: _Store {
     .init(rawValue: self.send(action))
   }
 
+  #if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
+
   /// Sends an action to the store with a given animation.
   ///
   /// See ``Store/send(_:)`` for more info.
@@ -220,6 +226,18 @@ public final class Store<State, Action>: _Store {
       .init(rawValue: self.send(action))
     }
   }
+  #else
+  
+  /// Provides dynamic member lookup access to state properties.
+  ///
+  /// On platforms that support observation, a more sophisticated implementation is provided
+  /// in `Store+Observation.swift` that includes observation tracking. This basic implementation
+  /// is available on all platforms, including Linux.
+  public subscript<Value>(dynamicMember keyPath: KeyPath<State, Value>) -> Value {
+    self.currentState[keyPath: keyPath]
+  }
+  
+  #endif
 
   /// Scopes the store to one that exposes child state and actions.
   ///

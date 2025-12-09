@@ -1,4 +1,8 @@
+#if !os(macOS) && !os(iOS) && !os(watchOS) && !os(visionOS) && !os(tvOS)
+@preconcurrency import OpenCombine
+#else
 @preconcurrency import Combine
+#endif
 
 extension Effect where Action: Sendable {
   @_spi(Internals) public var actions: AsyncStream<Action> {

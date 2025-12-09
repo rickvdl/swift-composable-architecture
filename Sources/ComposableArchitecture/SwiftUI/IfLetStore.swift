@@ -1,4 +1,5 @@
-import Combine
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
+@preconcurrency import Combine
 import SwiftUI
 
 /// A view that safely unwraps a store of optional state in order to show one of two views.
@@ -318,3 +319,4 @@ private final class _IfLetCore<Base: Core<Wrapped?, Action>, Wrapped, Action>: C
   var isInvalid: Bool { state == nil || base.isInvalid }
   var effectCancellables: [UUID: AnyCancellable] { base.effectCancellables }
 }
+#endif

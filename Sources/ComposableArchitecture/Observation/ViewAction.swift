@@ -1,4 +1,6 @@
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
 import SwiftUI
+#endif
 
 /// Defines the actions that can be sent from a view.
 ///
@@ -27,6 +29,7 @@ extension ViewActionSending {
     self.store.send(.view(action))
   }
 
+  #if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
   /// Send a view action to the store with animation.
   @discardableResult
   public func send(_ action: StoreAction.ViewAction, animation: Animation?) -> StoreTask {
@@ -38,4 +41,5 @@ extension ViewActionSending {
   public func send(_ action: StoreAction.ViewAction, transaction: Transaction) -> StoreTask {
     self.store.send(.view(action), transaction: transaction)
   }
+  #endif
 }

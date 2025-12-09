@@ -1,3 +1,4 @@
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
 import OrderedCollections
 import SwiftUI
 
@@ -256,3 +257,4 @@ extension Case {
     )
   }
 }
+#endif

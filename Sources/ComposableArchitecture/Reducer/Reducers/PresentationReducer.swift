@@ -1,5 +1,9 @@
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
+@preconcurrency import Combine
+#else
+@preconcurrency import OpenCombine
+#endif
 @_spi(Reflection) import CasePaths
-import Combine
 
 /// A property wrapper for state that can be presented.
 ///

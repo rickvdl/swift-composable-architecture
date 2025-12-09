@@ -1,3 +1,4 @@
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
 import SwiftUI
 
 extension Binding {
@@ -432,3 +433,4 @@ extension Store where State: ObservableState {
     }
   }
 }
+#endif

@@ -1,3 +1,4 @@
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
 extension DependencyValues {
   /// A Boolean value that indicates whether the current feature is being presented from a parent
   /// feature.
@@ -12,3 +13,4 @@ extension DependencyValues {
     self.dismiss.dismiss != nil
   }
 }
+#endif

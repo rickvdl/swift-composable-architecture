@@ -1,3 +1,4 @@
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
 import Combine
 import SwiftUI
 
@@ -98,3 +99,4 @@ private struct TransactionPublisher<Upstream: Publisher>: Publisher {
     }
   }
 }
+#endif

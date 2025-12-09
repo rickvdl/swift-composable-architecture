@@ -1,5 +1,10 @@
+#if !os(macOS) && !os(iOS) && !os(watchOS) && !os(visionOS) && !os(tvOS)
+@preconcurrency import OpenCombine
+#else
+@preconcurrency import Combine
+#endif
+
 @_spi(Reflection) import CasePaths
-import Combine
 import Foundation
 import OrderedCollections
 

@@ -1,11 +1,20 @@
 @_spi(Internals) import CasePaths
-import Combine
+#if !os(macOS) && !os(iOS) && !os(watchOS) && !os(visionOS) && !os(tvOS)
+@preconcurrency import OpenCombine
+#else
+@preconcurrency import Combine
+#endif
 import ConcurrencyExtras
 import CustomDump
 @_spi(Beta) import Dependencies
 import Foundation
 import IssueReporting
 @_spi(SharedChangeTracking) import Sharing
+
+#if !os(macOS) && !os(iOS) && !os(watchOS) && !os(visionOS) && !os(tvOS)
+// NSEC_PER_SEC is not available on non-Apple platforms
+let NSEC_PER_SEC: UInt64 = 1_000_000_000
+#endif
 
 /// A testable runtime for a reducer.
 ///
@@ -2565,6 +2574,7 @@ extension TestStore {
   }
 }
 
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
 extension TestStore {
   /// Returns a binding view store for this store.
   ///
@@ -2667,6 +2677,7 @@ extension TestStore where Action: BindableAction, State == Action.State {
     self.bindings(action: AnyCasePath())
   }
 }
+#endif
 
 /// The type returned from ``TestStore/send(_:assert:fileID:file:line:column:)-8f2pl`` that represents the
 /// lifecycle of the effect started from sending an action.

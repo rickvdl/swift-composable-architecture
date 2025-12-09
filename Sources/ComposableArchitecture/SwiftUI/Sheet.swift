@@ -1,3 +1,4 @@
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
 import SwiftUI
 
 extension View {
@@ -106,3 +107,4 @@ extension View {
     }
   }
 }
+#endif

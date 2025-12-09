@@ -1,6 +1,10 @@
-import Combine
-import Dispatch
+#if !os(macOS) && !os(iOS) && !os(watchOS) && !os(visionOS) && !os(tvOS)
+@preconcurrency import OpenCombine
+#else
+@preconcurrency import Combine
 @_spi(SharedChangeTracking) import Sharing
+#endif
+import Dispatch
 
 extension Reducer {
   /// Enhances a reducer with debug logging of received actions and state mutations for the given

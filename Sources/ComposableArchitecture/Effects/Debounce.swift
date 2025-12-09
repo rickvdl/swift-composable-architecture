@@ -1,4 +1,8 @@
-import Combine
+#if !os(macOS) && !os(iOS) && !os(watchOS) && !os(visionOS) && !os(tvOS)
+@preconcurrency import OpenCombine
+#else
+@preconcurrency import Combine
+#endif
 
 extension Effect {
   /// Turns an effect into one that can be debounced.

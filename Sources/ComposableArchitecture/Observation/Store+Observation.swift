@@ -1,4 +1,6 @@
-import SwiftUI
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
+ import SwiftUI
+#endif
 
 #if canImport(Observation)
   import Observation
@@ -115,6 +117,7 @@ extension Store where State: ObservableState {
   }
 }
 
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
 extension Binding {
   /// Scopes the binding of a store to a binding of an optional presentation store.
   ///
@@ -222,13 +225,6 @@ extension ObservedObject.Wrapper {
           column: column
         ]
     ]
-  }
-}
-
-extension Store {
-  fileprivate var _currentState: State {
-    get { currentState }
-    set {}
   }
 }
 
@@ -403,7 +399,7 @@ extension UIBindable {
     column: UInt = #column
   ) -> UIBinding<Store<ChildState, ChildAction>?>
   where Value == Store<State, Action> {
-    #if DEBUG && canImport(SwiftUI)
+    #if DEBUG
       let id = _PerceptionLocals.$skipPerceptionChecking.withValue(true) {
         wrappedValue.currentState[keyPath: state].flatMap(_identifiableID)
       }
@@ -420,6 +416,14 @@ extension UIBindable {
       line: line,
       column: column
     ]
+  }
+}
+#endif
+
+extension Store {
+  fileprivate var _currentState: State {
+    get { currentState }
+    set {}
   }
 }
 

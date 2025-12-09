@@ -1,4 +1,6 @@
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
 import SwiftUI
+#endif
 
 extension DependencyValues {
   /// An effect that dismisses the current presentation.
@@ -75,6 +77,7 @@ extension DependencyValues {
 /// > }
 /// > XCTAssertEqual(isDismissInvoked.value, [true])
 /// > ```
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
 public struct DismissEffect: Sendable {
   var dismiss: (@MainActor @Sendable () -> Void)?
 
@@ -143,6 +146,41 @@ public struct DismissEffect: Sendable {
     }
   }
 }
+#else
+public struct DismissEffect: Sendable {
+  var dismiss: (@MainActor @Sendable () -> Void)?
+
+  @MainActor
+  public func callAsFunction(
+    fileID: StaticString = #fileID,
+    filePath: StaticString = #filePath,
+    line: UInt = #line,
+    column: UInt = #column
+  ) async {
+    guard let dismiss = self.dismiss
+    else {
+      reportIssue(
+        """
+        A reducer requested dismissal at "\(fileID):\(line)", but couldn't be dismissed.
+
+        This is generally considered an application logic error, and can happen when a reducer \
+        assumes it runs in a presentation context. If a reducer can run at both the root level \
+        of an application, as well as in a presentation destination, use \
+        @Dependency(\\.isPresented) to determine if the reducer is being presented before calling \
+        @Dependency(\\.dismiss).
+        """,
+        fileID: fileID,
+        filePath: filePath,
+        line: line,
+        column: column
+      )
+      return
+    }
+    
+    dismiss()
+  }
+}
+#endif
 
 extension DismissEffect {
   public init(_ dismiss: @escaping @MainActor @Sendable () -> Void) {

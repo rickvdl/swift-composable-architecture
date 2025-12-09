@@ -1,3 +1,4 @@
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
 import OrderedCollections
 import SwiftUI
 
@@ -157,3 +158,4 @@ public struct _StoreCollection<ID: Hashable & Sendable, State, Action>: RandomAc
     }
   }
 }
+#endif

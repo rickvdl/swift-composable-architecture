@@ -1,13 +1,13 @@
-#if canImport(SwiftUI)
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
   import SwiftUI
 #endif
-#if canImport(UIKit)
+#if os(iOS) || os(watchOS) || os(tvOS)
   import UIKit
 #endif
 
 // NB: Deprecated with 1.13.0:
 
-#if canImport(UIKit) && !os(watchOS)
+#if (os(iOS) || os(tvOS)) && !os(watchOS)
   extension UIAlertController {
     @_disfavoredOverload
     @available(*, unavailable, renamed: "init(state:handler:)")
@@ -120,7 +120,7 @@
   }
 #endif
 
-#if canImport(SwiftUI)
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
   extension Binding {
     @available(
       *, deprecated,
@@ -135,11 +135,13 @@
 
 // NB: Deprecated with 1.10.0:
 
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
 @available(*, deprecated, message: "Use '.fileSystem' ('FileStorage.fileSystem') instead")
 public func LiveFileStorage() -> FileStorage { .fileSystem }
 
 @available(*, deprecated, message: "Use '.inMemory' ('FileStorage.inMemory') instead")
 public func InMemoryFileStorage() -> FileStorage { .inMemory }
+#endif
 
 // NB: Deprecated with 1.0.0:
 

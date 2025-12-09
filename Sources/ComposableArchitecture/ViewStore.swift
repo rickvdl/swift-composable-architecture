@@ -1,5 +1,9 @@
+#if !os(macOS) && !os(iOS) && !os(watchOS) && !os(visionOS) && !os(tvOS)
+@preconcurrency import OpenCombine
+#else
 @preconcurrency import Combine
 import SwiftUI
+#endif
 
 /// A `ViewStore` is an object that can observe state changes and send actions. They are most
 /// commonly used in views, such as SwiftUI views, UIView or UIViewController, but they can be used
@@ -254,11 +258,14 @@ public final class ViewStore<ViewState, ViewAction>: ObservableObject {
   /// - Parameters:
   ///   - action: An action.
   ///   - animation: An animation.
+  #if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
   @discardableResult
   public func send(_ action: ViewAction, animation: Animation?) -> StoreTask {
     self.send(action, transaction: Transaction(animation: animation))
   }
+  #endif
 
+  #if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
   /// Sends an action to the store with a given transaction.
   ///
   /// See ``ViewStore/send(_:)`` for more info.
@@ -272,6 +279,7 @@ public final class ViewStore<ViewState, ViewAction>: ObservableObject {
       self.send(action)
     }
   }
+  #endif
 
   /// Sends an action into the store and then suspends while a piece of state is `true`.
   ///
@@ -368,6 +376,7 @@ public final class ViewStore<ViewState, ViewAction>: ObservableObject {
   ///   - animation: The animation to perform when the action is sent.
   ///   - predicate: A predicate on `ViewState` that determines for how long this method should
   ///     suspend.
+  #if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
   public func send(
     _ action: ViewAction,
     animation: Animation?,
@@ -380,6 +389,7 @@ public final class ViewStore<ViewState, ViewAction>: ObservableObject {
       task.cancel()
     }
   }
+  #endif
 
   /// Suspends the current task while a predicate on state is `true`.
   ///
@@ -439,6 +449,7 @@ public final class ViewStore<ViewState, ViewAction>: ObservableObject {
   ///   - valueToAction: A function that transforms the binding's value into an action that can be
   ///     sent to the store.
   /// - Returns: A binding.
+  #if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
   public func binding<Value>(
     get: @escaping (_ state: ViewState) -> Value,
     send valueToAction: @escaping (_ value: Value) -> ViewAction
@@ -559,6 +570,7 @@ public final class ViewStore<ViewState, ViewAction>: ObservableObject {
       }
     }
   }
+  #endif
 }
 
 /// A convenience type alias for referring to a view store of a given reducer's domain.

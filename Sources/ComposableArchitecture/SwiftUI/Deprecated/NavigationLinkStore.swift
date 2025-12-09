@@ -1,4 +1,5 @@
-import Combine
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
+@preconcurrency import Combine
 import SwiftUI
 
 /// A view that controls a navigation presentation.
@@ -215,3 +216,4 @@ private final class NavigationLinkCore<
   var isInvalid: Bool { state.wrappedValue.flatMap(toDestinationState)?.id != id || base.isInvalid }
   var effectCancellables: [UUID: AnyCancellable] { base.effectCancellables }
 }
+#endif

@@ -1,3 +1,4 @@
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
 import OrderedCollections
 import SwiftUI
 
@@ -205,3 +206,4 @@ private struct NavigationDestinationView<State, Destination: View>: View {
       .id(self.component.id)
   }
 }
+#endif

@@ -1,3 +1,4 @@
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
 import CustomDump
 import SwiftUI
 
@@ -803,4 +804,5 @@ extension WithViewStore where ViewState: Equatable, Content: View {
       }
     }
   }
+#endif
 #endif

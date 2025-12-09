@@ -1,6 +1,7 @@
 import Dependencies
 import Foundation
 
+#if os(macOS) || os(iOS) || os(watchOS) || os(visionOS) || os(tvOS)
 extension SharedReaderKey {
   /// Creates a persistence key for sharing data in user defaults given a key path.
   ///
@@ -96,3 +97,4 @@ extension AppStorageKeyPathKey: SharedKey, Hashable {
 private enum SharedAppStorageLocals {
   @TaskLocal static var isSetting = false
 }
+#endif
